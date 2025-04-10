@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CGPA Calculator - B.Tech AI&DS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/Styles/style.css">
+</head>
+<body>
+
+    <h2>🎓 Anna University - B.Tech AI&DS CGPA Calculator</h2>
+
+    <form id="cgpaForm">
+        {% for semester, subject_list in subjects.items() %}
+            <h3>{{ semester }}</h3>
+            <table id="table_{{ semester|replace(' ', '_') }}">
+                <thead>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Credits</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for code, name, credits in subject_list %}
+                        {% if credits > 0 %}
+                        <tr>
+                            <td>{{ code }}</td>
+                            <td>{{ name }}</td>
+                            <td>{{ credits }}</td>
+                            <td>
+                                <select name="{{ code }}" data-semester="{{ semester }}" data-credits="{{ credits }}" onchange="saveGrade(this)">
+                                    <option value="">-- Select Grade --</option>
+                                    <option value="O">O</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A">A</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B">B</option>
+                                    <option value="RA">RA</option>
+                                    <option value="U">U</option>
+                                    <option value="AB">AB</option>
+                                </select>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" class="submit-btn" onclick="calculateSemesterGPA('{{ semester }}')">📘 Calculate GPA for {{ semester }}</button>
+            <p class="gpa-display" id="gpa_{{ semester|replace(' ', '_') }}"></p>
+            <div class="semester-header">
+                <a class="add-subject-btn" href="/add-subjects" target="_blank">➕ Add Subject</a>
+            </div>
+            
+            <hr>
+        {% endfor %}
+
+        <button type="button" class="submit-btn" onclick="calculateCGPA()">🎯 Calculate Overall CGPA</button>
+        <p class="gpa-display" id="cgpa_result"></p>
+    </form>
+    <script src="../static/Scripts/script.js"></script>
+</body>
+</html>

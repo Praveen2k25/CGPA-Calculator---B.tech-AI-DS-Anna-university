@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Subjects to Semester</title>
+    <link rel="stylesheet" href="../static/Styles/styles.css">
+</head>
+<body>
+
+<h2>Add Subjects to Semesters</h2>
+<p class="msg" id="statusMsg"></p>
+
+{% for semester, subject_list in subjects.items() %}
+    <h3>{{ semester }}</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Credits</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for code, name, credits in subject_list %}
+            {% if credits > 0 %}
+            <tr>
+                <td>{{ code }}</td>
+                <td>{{ name }}</td>
+                <td>{{ credits }}</td>
+                <td>
+                    <button onclick="addSubject('{{ semester }}', '{{ code }}', '{{ name }}', '{{ credits }}')">Add</button>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+
+<script src="../static/Scripts/scripts.js"></script>
+</body>
+</html>
